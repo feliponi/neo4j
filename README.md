@@ -64,4 +64,35 @@ MATCH (m:Movie) RETURN m.title, m.tagline, m.released
 MATCH (m:Movie) RETURN m.title as titulo, m.tagline as tag, m.released as datalancamento
 ```
 
-#### 
+#### Exercise 3.1: Display the schema of the database
+
+```
+call db.schema.visualization
+```
+
+### Exercise 3.2: Retrieve all people who wrote the movie Speed Racer
+
+```
+MATCH (p:Person)-[rel:WROTE]->(m:Movie { title: 'Speed Racer'}) RETURN p.name, rel, m.name
+```
+
+#### Exercise 3.2: Retrieve all people who wrote the movie Speed Racer
+-Retrieve all people who have written other movies.  
+-Retrieve people who have acted in a particular movie.  
+-Retrieve people who have directed a particular movie.  
+
+```
+MATCH (p:Person)-[rel:WROTE]->(m:Movie { title: 'A Few Good Men'})
+RETURN p, rel, m
+```
+```
+MATCH (p:Person)-[rel:ACTED_IN]->(m:Movie { title: 'Speed Racer'})
+RETURN p, rel, m
+```
+```
+MATCH (p:Person)-[rel:DIRECTED]->(m:Movie { title: 'Speed Racer'})
+RETURN p, rel, m
+```
+
+
+
