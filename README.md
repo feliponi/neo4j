@@ -93,6 +93,56 @@ RETURN p, rel, m
 MATCH (p:Person)-[rel:DIRECTED]->(m:Movie { title: 'Speed Racer'})
 RETURN p, rel, m
 ```
+#### Exercise 3.3: Retrieve all movies that are connected to the person, Tom Hanks
 
+```
+MATCH (p:Person {name: 'Tom Hanks'})-[rel]->(m:Movie)
+RETURN p, rel, m
+```
 
+#### Exercise 3.3: Retrieve all movies that are connected to the person, Tom Hanks
+-Retrieve all movies connected with another actor.  
+-Retrieve all people connected with a particular movie. 
 
+```
+MATCH (p:Person {name: 'Tom Cruise'})-[rel]->(m:Movie)
+RETURN p, rel, m
+```
+```
+MATCH (p:Person)-[rel]->(m:Movie {title: 'The Matrix'})
+RETURN p, rel, m
+```
+
+#### Exercise 3.4: Retrieve information about the relationships Tom Hanks has with the set of movies retrieved earlier
+
+```
+MATCH (p:Person {name: 'Tom Hanks'})-[rel]->(m:Movie)
+RETURN type(rel)
+```
+
+-Retrieve the relationship information about a different actor.  
+
+```
+MATCH (p:Person {name: 'Tom Cruise'})-[rel]->(m:Movie)
+RETURN type(rel)
+```
+#### Exercise 3.5: Retrieve information about the roles that Tom Hanks acted in
+
+```
+MATCH (p:Person {name: 'Tom Hanks'})-[r:ACTED_IN]->(m:Movie)
+RETURN p.name, r.roles
+```
+
+-Retrieve all roles for a different actor.  
+
+```
+MATCH (p:Person {name: 'Tom Cruise'})-[r:ACTED_IN]->(m:Movie)
+RETURN m.title, r.roles
+```
+
+-Retrieve all roles played for a particular movie.  
+
+```
+MATCH (p:Person {name: 'Tom Cruise'})-[r:ACTED_IN]->(m:Movie)
+RETURN m.title, r.roles
+```
