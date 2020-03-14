@@ -57,3 +57,11 @@ MATCH (m:Movie {released: 2004}) RETURN m.title, m.tagline, m.released
 ```
 MATCH (m:Movie) RETURN m.title, m.tagline, m.released
 ```
+
+#### Exercise 2.6: Display more user-friendly headers in the table
+
+```
+MATCH (m:Movie) RETURN m.title as titulo, m.tagline as tag, m.released as datalancamento
+```
+
+#### 
