@@ -4,7 +4,6 @@
 MATCH (n) RETURN n
 ```
 
-
 #### Exercise 1.2: Examine the schema of your database
 
 ```
@@ -15,7 +14,7 @@ call db.schema.visualization
 
 ```
 MATCH (p:Person) return p
-``
+```
 
 #### Exercise 1.4: Retrieve all Movie nodes
 
@@ -58,11 +57,3 @@ MATCH (m:Movie {released: 2004}) RETURN m.title, m.tagline, m.released
 ```
 MATCH (m:Movie) RETURN m.title, m.tagline, m.released
 ```
-
-
-
-
-
-
-
-
