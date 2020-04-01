@@ -146,3 +146,11 @@ RETURN m.title, r.roles
 MATCH (p:Person {name: 'Tom Cruise'})-[r:ACTED_IN]->(m:Movie)
 RETURN m.title, r.roles
 ```
+#### Exercise 4.1: Retrieve all movies that Tom Cruise acted in
+
+-Retrieve all movies that Tom Cruise acted in and return their titles.
+
+```
+MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE p.name = 'Tom Cruise' RETURN m
+```
+
