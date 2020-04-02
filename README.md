@@ -289,6 +289,31 @@ MATCH (p:Person)-[:ACTED_IN]->(m:Movie) RETURN p.name as actor, collect(m.title)
 MATCH (p:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(p2:Person) WHERE p.name ='Tom Cruise' RETURN m.title as movie, collect(p2.name) 
 ```
 
+#### Exercise 5.9: Retrieve nodes as lists and return data associated with the corresponding lists 
+
+```
+MATCH (p:Person)-[:REVIEWED]->(m:Movie) RETURN m.title as movie, count(p) as numReviews, collect(p.name) as reviewers
+```
+
+#### Exercise 5.10: Retrieve nodes and their relationships as list
+
+```
+MATCH (d:Person)-[:DIRECTED]->(m:Movie)<-[:ACTED_IN]-(a:Person) RETURN d.name AS director, count(a) AS `number actors` , collect(a.name) AS `actors worked with`
+```
+
+#### Exercise 5.11: Retrieve the actors who have acted in exactly five movies
+
+```
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie) WITH  a, count(a) AS numMovies, collect(m.title) AS movies WHERE numMovies = 5
+RETURN a.name, movies
+```
+
+#### Exercise 5.12: Retrieve the movies that have at least 2 directors with other optional data
+
+```
+MATCH (m:Movie) WITH m, size((:Person)-[:DIRECTED]->(m)) AS directors WHERE directors >= 2 OPTIONAL MATCH (p:Person)-[:REVIEWED]->(m) RETURN  m.title, p.name
+```
+
 
 
 
