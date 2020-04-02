@@ -243,7 +243,50 @@ MATCH (a:Person)-[r:ACTED_IN]->(m:Movie) WHERE m.title in r.roles RETURN  m.titl
 #### Exercise 5.1: Retrieve data using multiple MATCH patterns
 
 ```
+MATCH (p1:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(p2:Person), (p3:Person)-[:ACTED_IN]->(m) WHERE p1.name = 'Gene Hackman'
+RETURN m.title, p2.name , p3.name
+```
 
+#### Exercise 5.2: Retrieve particular nodes that have a relationship
+
+```
+MATCH (p1:Person)-[:FOLLOWS]-(p2:Person) WHERE p1.name = 'James Thompson' RETURN p1, p2
+```
+
+#### Exercise 5.3: Modify the query to retrieve nodes that are exactly three hops away
+
+```
+MATCH (p1:Person)-[:FOLLOWS*3]-(p2:Person) WHERE p1.name = 'James Thompson' RETURN p1, p2
+```
+
+#### Exercise 5.4: Modify the query to retrieve nodes that are one and two hops away
+
+```
+MATCH (p1:Person)-[:FOLLOWS*1..2]-(p2:Person) WHERE p1.name = 'James Thompson' RETURN p1, p2
+```
+
+#### Exercise 5.5: Modify the query to retrieve particular nodes that are connected no matter how many hops are required
+
+```
+MATCH (p1:Person)-[:FOLLOWS*]-(p2:Person) WHERE p1.name = 'James Thompson' RETURN p1, p2
+```
+
+#### Exercise 5.6: Specify optional data to be retrieved during the query 
+
+```
+MATCH (p:Person) WHERE p.name STARTS WITH 'Tom' OPTIONAL MATCH (p)-[:DIRECTED]->(m:Movie) RETURN p.name, m.title
+```
+
+#### Exercise 5.7: Retrieve nodes by collecting a list
+
+```
+MATCH (p:Person)-[:ACTED_IN]->(m:Movie) RETURN p.name as actor, collect(m.title)
+```
+
+#### xercise 5.8: Retrieve all movies that Tom Cruise has acted in and the co-actors that acted in the same movie by collecting a list
+
+```
+MATCH (p:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(p2:Person) WHERE p.name ='Tom Cruise' RETURN m.title as movie, collect(p2.name) 
 ```
 
 
