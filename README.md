@@ -216,6 +216,38 @@ MATCH (m:Movie) WHERE m.tagline CONTAINS 'love' RETURN  m.title
 MATCH (m:Movie) WHERE m.tagline =~ '.*love.*' RETURN  m.title
 ```
 
+#### Exercise 4.10: Retrieve all people who have produced a movie, but have not directed a movie
+
+```
+MATCH (a:Person)-[:PRODUCED]->(m:Movie) WHERE NOT ((a)-[:DIRECTED]->(:Movie)) RETURN a.name, m.title
+```
+
+#### Exercise 4.11: Retrieve the movies and their actors where one of the actors also directed the movie
+
+```
+MATCH (p1:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(p2:Person) WHERE exists((p2)-[:DIRECTED]->(m)) RETURN  p1.name, p2.name, m.title
+```
+
+#### Exercise 4.12: Retrieve all movies that were released in a set of years
+
+```
+MATCH (m:Movie) WHERE m.released in [2000, 2004, 2008] RETURN m.title, m.released
+```
+
+#### Exercise 4.13: Retrieve the movies that have an actor’s role that is the name of the movie
+
+```
+MATCH (a:Person)-[r:ACTED_IN]->(m:Movie) WHERE m.title in r.roles RETURN  m.title, a.name
+```
+
+#### Exercise 5.1: Retrieve data using multiple MATCH patterns
+
+```
+
+```
+
+
+
 
 
 
