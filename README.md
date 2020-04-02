@@ -184,11 +184,39 @@ MATCH (a)-[rel]->(m) WHERE a:Person AND type(rel) = 'WROTE' AND m:Movie RETURN a
 MATCH (a:Person) WHERE NOT exists(a.born) RETURN a.name
 ```
 
-####Exercise 4.7: Retrieve all people related to movies where the relationship has a property (Solution)
+#### Exercise 4.7: Retrieve all people related to movies where the relationship has a property
 
 ```
 MATCH (a:Person)-[rel]->(m:Movie) WHERE exists(rel.roles) RETURN a.name as Name, m.title as Movie, rel.roles
 ```
+
+#### Exercise 4.8: Retrieve all actors whose name begins with James
+
+```
+MATCH (a:Person)-[:ACTED_IN]->(:Movie) WHERE a.name STARTS WITH 'James'RETURN a.name
+```
+
+#### Exercise 4.9: Retrieve all REVIEWED relationships from the graph with filtered results
+
+```
+MATCH (:Person)-[r:REVIEWED]->(m:Movie) WHERE r.summary CONTAINS 'Fun' RETURN  m.title, r.summary, r.rating
+```
+
+#### Exercise 4.9: Retrieve all REVIEWED relationships from the graph where the summary of the review contains the string fun (Taking it further - optional)
+
+- Retrieve all movies in the database that have love in their tagline and return the movie titles
+
+```
+MATCH (m:Movie) WHERE m.tagline CONTAINS 'love' RETURN  m.title
+```
+
+- Retrieve movies in the database, specifying a regular expression for the content of the tagline.
+
+```
+MATCH (m:Movie) WHERE m.tagline =~ '.*love.*' RETURN  m.title
+```
+
+
 
 
 
