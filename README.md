@@ -436,8 +436,107 @@ MATCH (m:OlderMovie) RETURN m.title, m.released
 Add the label Female to all Person nodes that has a person whose name starts with Robin.
 
 ```
+MATCH (p:Person) WHERE p.name STARTS WITH 'Robin' SET p:Female
 ```
 
+#### Exercise 8.8: Retrieve all Female nodes
 
+Retrieve all Female nodes
+
+```
+MATCH (p:Female) RETURN p.name
+```
+
+#### Exercise 8.9: Remove the Female label from the nodes that have this label
+
+We’ve decided to not use the Female label. Remove the Female label from the nodes that have this label.
+
+```
+MATCH (p:Female) REMOVE p:Female
+```
+
+#### Exercise 8.10: View the current schema of the graph
+
+View the current schema of the graph.
+
+```
+call db.schema.visualization
+```
+
+#### Exercise 8.11: Add properties to a movie (Instructions)
+
+Add the following properties to the movie, Forrest Gump:
+
+- released: 1994
+
+- tagline: Life is like a box of chocolates…​you never know what you’re gonna get.
+
+- lengthInMinutes: 142
+
+```
+MATCH (m:Movie) WHERE m.title = 'Forrest Gump' SET m:OlderMovie, m.released = 1994, m.tagline = "Life is like a box of chocolates...you never know what you're gonna get.", m.lengthInMinutes = 142
+```
+
+#### Exercise 8.12: Retrieve an OlderMovie node to confirm the label and properties (Instructions)
+
+Retrieve this OlderMovie node to confirm that the properties and label have been properly set.
+
+```
+MATCH (m:OlderMovie) WHERE m.title = 'Forrest Gump' RETURN m
+```
+
+#### Exercise 8.13: Add properties to the person, Robin Wright (Instructions)
+
+Add the following properties to the person, Robin Wright:
+
+- born: 1966
+
+- birthPlace: Dallas
+
+```
+MATCH (p:Person) WHERE p.name = 'Robin Wright' SET p.born = 1966, p.birthPlace = 'Dallas'
+```
+
+#### Exercise 8.14: Retrieve an updated Person node (Instructions)
+
+Retrieve this Person node to confirm that the properties have been properly set.
+
+```
+MATCH (p:Person) WHERE p.name = 'Robin Wright' RETURN p
+```
+
+#### Exercise 8.15: Remove a property from a Movie node (Instructions)
+
+Next, you will remove properties from specific nodes in the graph.
+
+Remove the lengthInMinutes property from the movie, Forrest Gump.
+
+```
+MATCH (m:Movie) WHERE m.title = 'Forrest Gump' SET m.lengthInMinutes = null
+```
+
+#### Exercise 8.16: Retrieve the node to confirm that the property has been removed (Instructions)
+
+Retrieve the Forrest Gump node to confirm that the property has been removed.
+
+```
+MATCH (m:Movie) WHERE m.title = 'Forrest Gump' RETURN m
+```
+
+#### Exercise 8.17: Remove a property from a Person node (Instructions)
+
+Remove the birthPlace property from the person, Robin Wright.
+
+```
+MATCH (p:Person) WHERE p.name = 'Robin Wright' REMOVE p.birthPlace
+```
+
+#### Exercise 8.18: Retrieve the node to confirm that the property has been removed (Instructions)
+
+Retrieve the Robin Wright node to confirm that the property has been removed.
+
+```
+MATCH (p:Person) WHERE p.name = 'Robin Wright' RETURN p
+```
 
 
