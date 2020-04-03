@@ -351,6 +351,93 @@ MATCH (a:Person)-[:ACTED_IN]->(m:Movie) WITH  a,  count(a) AS numMovies, collect
 RETURN a.name, movies
 ```
 
+#### Exercise 7.1: Collect and use lists
+
+Write a Cypher query that retrieves all actors that acted in movies, and also retrieves the producers for those movies. During the query, collect the names of the actors and the names of the producers. Return the movie titles, along with the list of actors for each movie, and the list of producers for each movie making sure there is no duplication of data. Order the results returned based upon the size of the list of actors.
+
+```
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie), (m)<-[:PRODUCED]-(p:Person) WITH  m, collect(DISTINCT a.name) AS cast, collect(DISTINCT p.name) AS producers RETURN DISTINCT m.title, cast, producers ORDER BY size(cast)
+```
+
+#### Exercise 7.2: Collect a list
+
+Write a Cypher query that retrieves all actors that acted in movies, and collects the list of movies for any actor that acted in more than five movies. Return the name of the actor and the list.
+
+```
+MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WITH p, collect(m) AS movies WHERE size(movies) > 5 RETURN p.name, movies
+```
+
+#### Exercise 7.3: Unwind a list
+
+Modify the query you just wrote so that before the query processing ends, you unwind the list of movies and then return the name of the actor and the title of the associated movie.
+
+```
+MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WITH p, collect(m) AS movies WHERE size(movies) > 5 WITH p, movies UNWIND movies AS movie RETURN p.name, movie.title
+```
+
+#### Exercise 7.4: Perform a calculation with the date type
+
+Write a query that retrieves all movies that Tom Hanks acted in, returning the title of the movie, the year the movie was released, the number of years ago that the movie was released, and the age of Tom when the movie was released.
+
+```
+MATCH (a:Person)-[:ACTED_IN]->(m:Movie) WHERE a.name = 'Tom Hanks' RETURN  m.title, m.released, date().year  - m.released as yearsAgoReleased, m.released  - a.born AS `age of Tom` ORDER BY yearsAgoReleased
+```
+
+#### Exercise 8.1: Create a Movie node
+
+Create a Movie node for the movie with the title, Forrest Gump.
+
+```
+CREATE (:Movie {title: 'Forrest Gump'})
+```
+
+#### Exercise 8.2: Retrieve the newly-created node
+
+Retrieve the node you just created by its title.
+
+```
+MATCH (m:Movie) WHERE m.title = 'Forrest Gump' RETURN m
+```
+
+#### Exercise 8.3: Create a Person node
+
+Create a Person node for the person with the name, Robin Wright.
+
+```
+CREATE (:Person {name: 'Robin Wright'})
+```
+
+#### Exercise 8.4: Retrieve the Person node you just created by its name
+
+Retrieve the Person node you just created by its name.
+
+```
+MATCH (p:Person) WHERE p.name = 'Robin Wright' RETURN p
+```
+
+#### Exercise 8.5: Add a label to a node
+
+Add the label OlderMovie to any Movie node that was released before 2010.
+
+```
+MATCH (m:Movie) WHERE m.released < 2010 SET m:OlderMovie RETURN DISTINCT labels(m)
+```
+
+#### Exercise 8.6: Retrieve the node using the new label
+
+Retrieve all older movie nodes to test that the label was indeed added to these nodes.
+
+```
+MATCH (m:OlderMovie) RETURN m.title, m.released
+```
+
+#### Exercise 8.7: Add the Female label to selected nodes (Instructions)
+
+Add the label Female to all Person nodes that has a person whose name starts with Robin.
+
+```
+```
+
 
 
 
