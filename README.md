@@ -905,3 +905,30 @@ Modify the ratingValue parameter to be a different value, 60, and retest your qu
 :params {year: 2006, ratingValue: 60}
 ```
 
+#### Exercise 13.1: View the query plan for a Cypher statement (Instructions)
+
+For this Part of the exercise, you will use the query that you wrote previously using Cypher parameters. It assumes that you have set the year and ratingValue Cypher parameters:
+
+```
+MATCH (r:Person)-[rel:REVIEWED]->(m:Movie)<-[:ACTED_IN]-(a:Person) WHERE m.released = $year AND rel.rating > $ratingValue
+RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
+```
+
+#### Exercise 13.2: View the metrics for the query when a statement executes (Instructions)
+
+View the metrics for the query when the previous statement executes.
+
+```
+PROFILE MATCH (r:Person)-[rel:REVIEWED]->(m:Movie)<-[:ACTED_IN]-(a:Person) WHERE m.released = $year AND rel.rating > $ratingValue RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
+```
+
+#### Exercise 13.3: Remove the labels from the nodes and relationships in the query and again view the metrics (Instructions)
+
+Remove the labels from the nodes and relationships in the query and again view the metrics. Compare the db hits from the previous version of the statement.
+
+```
+PROFILE MATCH (r)-[rel]->(m)<-[:ACTED_IN]-(a) WHERE m.released = $year AND rel.rating > $ratingValue RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
+```
+
+#### 
+
