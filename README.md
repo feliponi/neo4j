@@ -463,7 +463,7 @@ View the current schema of the graph.
 call db.schema.visualization
 ```
 
-#### Exercise 8.11: Add properties to a movie (Instructions)
+#### Exercise 8.11: Add properties to a movie
 
 Add the following properties to the movie, Forrest Gump:
 
@@ -477,7 +477,7 @@ Add the following properties to the movie, Forrest Gump:
 MATCH (m:Movie) WHERE m.title = 'Forrest Gump' SET m:OlderMovie, m.released = 1994, m.tagline = "Life is like a box of chocolates...you never know what you're gonna get.", m.lengthInMinutes = 142
 ```
 
-#### Exercise 8.12: Retrieve an OlderMovie node to confirm the label and properties (Instructions)
+#### Exercise 8.12: Retrieve an OlderMovie node to confirm the label and properties
 
 Retrieve this OlderMovie node to confirm that the properties and label have been properly set.
 
@@ -485,7 +485,7 @@ Retrieve this OlderMovie node to confirm that the properties and label have been
 MATCH (m:OlderMovie) WHERE m.title = 'Forrest Gump' RETURN m
 ```
 
-#### Exercise 8.13: Add properties to the person, Robin Wright (Instructions)
+#### Exercise 8.13: Add properties to the person, Robin Wright
 
 Add the following properties to the person, Robin Wright:
 
@@ -497,7 +497,7 @@ Add the following properties to the person, Robin Wright:
 MATCH (p:Person) WHERE p.name = 'Robin Wright' SET p.born = 1966, p.birthPlace = 'Dallas'
 ```
 
-#### Exercise 8.14: Retrieve an updated Person node (Instructions)
+#### Exercise 8.14: Retrieve an updated Person node
 
 Retrieve this Person node to confirm that the properties have been properly set.
 
@@ -515,7 +515,7 @@ Remove the lengthInMinutes property from the movie, Forrest Gump.
 MATCH (m:Movie) WHERE m.title = 'Forrest Gump' SET m.lengthInMinutes = null
 ```
 
-#### Exercise 8.16: Retrieve the node to confirm that the property has been removed (Instructions)
+#### Exercise 8.16: Retrieve the node to confirm that the property has been removed
 
 Retrieve the Forrest Gump node to confirm that the property has been removed.
 
@@ -523,7 +523,7 @@ Retrieve the Forrest Gump node to confirm that the property has been removed.
 MATCH (m:Movie) WHERE m.title = 'Forrest Gump' RETURN m
 ```
 
-#### Exercise 8.17: Remove a property from a Person node (Instructions)
+#### Exercise 8.17: Remove a property from a Person node
 
 Remove the birthPlace property from the person, Robin Wright.
 
@@ -531,7 +531,7 @@ Remove the birthPlace property from the person, Robin Wright.
 MATCH (p:Person) WHERE p.name = 'Robin Wright' REMOVE p.birthPlace
 ```
 
-#### Exercise 8.18: Retrieve the node to confirm that the property has been removed (Instructions)
+#### Exercise 8.18: Retrieve the node to confirm that the property has been removed
 
 Retrieve the Robin Wright node to confirm that the property has been removed.
 
@@ -539,4 +539,115 @@ Retrieve the Robin Wright node to confirm that the property has been removed.
 MATCH (p:Person) WHERE p.name = 'Robin Wright' RETURN p
 ```
 
+#### Exercise 9.1: Create ACTED_IN relationships
+
+In the last exercise, you created the node for the movie, Forrest Gump and the person, Robin Wright.
+
+Create the ACTED_IN relationship between the actors, Robin Wright, Tom Hanks, and Gary Sinise and the movie, Forrest Gump.
+
+```
+MATCH (m:Movie) WHERE m.title = 'Forrest Gump' MATCH (p:Person) WHERE p.name = 'Tom Hanks' OR p.name = 'Robin Wright' OR p.name = 'Gary Sinise' CREATE (p)-[:ACTED_IN]->(m)
+```
+
+#### Exercise 9.2: Create DIRECTED relationships
+
+Create the DIRECTED relationship between Robert Zemeckis and the movie, Forrest Gump.
+
+```
+MATCH (m:Movie) WHERE m.title = 'Forrest Gump' MATCH (p:Person) WHERE p.name = 'Robert Zemeckis' CREATE (p)-[:DIRECTED]->(m)
+```
+
+#### Exercise 9.3: Create a HELPED relationship
+
+Create a new relationship, HELPED from Tom Hanks to Gary Sinise.
+
+```
+MATCH (p1:Person) WHERE p1.name = 'Tom Hanks' MATCH (p2:Person) WHERE p2.name = 'Gary Sinise' CREATE (p1)-[:HELPED]->(p2)
+```
+
+#### Exercise 9.4: Query nodes and new relationships
+
+Write a Cypher query to return all nodes connected to the movie, Forrest Gump, along with their relationships.
+
+```
+MATCH (p:Person)-[rel]-(m:Movie) WHERE m.title = 'Forrest Gump' RETURN p, rel, m
+```
+
+#### Exercise 9.5: Add properties to relationships
+
+Next, you will add some properties to the relationships that you just created.
+
+Add the roles property to the three ACTED_IN relationships that you just created to the movie, Forrest Gump using this information: Tom Hanks played the role, Forrest Gump. Robin Wright played the role, Jenny Curran. Gary Sinise played the role, Lieutenant Dan Taylor.
+
+```
+SET rel.roles = CASE p.name WHEN 'Tom Hanks' THEN ['Forrest Gump'] WHEN 'Robin Wright' THEN ['Jenny Curran'] WHEN 'Gary Sinise' THEN ['Lieutenant Dan Taylor'] END
+```
+
+#### Exercise 9.6: Add a property to the HELPED relationship
+
+Add a new property, research to the HELPED relationship between Tom Hanks and Gary Sinise and set this property’s value to war history.
+
+```
+MATCH (p1:Person)-[rel:HELPED]->(p2:Person) WHERE p1.name = 'Tom Hanks' AND p2.name = 'Gary Sinise' SET rel.research = 'war history'
+```
+
+#### Exercise 9.7: View the current list of property keys in the graph
+
+View the current list of property keys in the graph.
+
+```
+call db.propertyKeys
+```
+
+#### Exercise 9.8: View the current schema of the graph
+
+View the current schema of the graph.
+
+```
+call db.schema.visualization
+```
+
+#### Exercise 9.9: Retrieve the names and roles for actors
+
+Query the graph to return the names and roles of actors in the movie, Forrest Gump.
+
+```
+MATCH (p:Person)-[rel:ACTED_IN]->(m:Movie) WHERE m.title = 'Forrest Gump' RETURN p.name, rel.roles
+```
+
+#### Exercise 9.10: Retrieve information about any specific relationships
+
+Query the graph to retrieve information about any HELPED relationships.
+
+```
+MATCH (p1:Person)-[rel:HELPED]-(p2:Person) RETURN p1.name, rel, p2.name
+```
+
+#### Exercise 9.11: Modify a property of a relationship
+
+Next, you will modify existing properties for a relationship and also remove them.
+
+Modify the role that Gary Sinise played in the movie, Forrest Gump from Lieutenant Dan Taylor to Lt. Dan Taylor.
+
+```
+MATCH (p:Person)-[rel:ACTED_IN]->(m:Movie) WHERE m.title = 'Forrest Gump' AND p.name = 'Gary Sinise' SET rel.roles =['Lt. Dan Taylor']
+```
+
+#### Exercise 9.12: Remove a property from a relationship
+
+Remove the research property from the HELPED relationship from Tom Hanks to Gary Sinise.
+
+```
+MATCH (p1:Person)-[rel:HELPED]->(p2:Person) WHERE p1.name = 'Tom Hanks' AND p2.name = 'Gary Sinise' REMOVE rel.research
+```
+
+#### Exercise 9.13: Confirm that your modifications were made to the graph
+
+Query the graph to confirm that your modifications were made to the graph.
+
+```
+MATCH (p:Person)-[rel:ACTED_IN]->(m:Movie) WHERE m.title = 'Forrest Gump' return p, rel, m
+```
+
+#### 
 
