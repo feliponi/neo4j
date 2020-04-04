@@ -844,5 +844,64 @@ MATCH (p:Person)-[rel:ACTED_IN]->(m:Movie) WHERE m.title = 'Forrest Gump' SET re
 END
 ```
 
+#### Exercise 12.1: Execute a Cypher query as described (Instructions)
 
+Suppose that you want to create Cypher statements that enables you to easily test against a number of values in the graph. You will be exploring the graph for people who reviewed movies and the actors in these movies. You do not want to hard-code the value for released for a _Movie_node in your query.
+
+Write and execute a Cypher query that returns the names of people who reviewed movies and the actors in these movies by returning the name of the reviewer, the movie title reviewed, the release date of the movie, the rating given to the movie by the reviewer, and the list of actors for that particular movie.
+
+```
+MATCH (r:Person)-[rel:REVIEWED]->(m:Movie)<-[:ACTED_IN]-(a:Person) RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
+```
+
+#### Exercise 12.2: Add a parameter to your session (Instructions)
+
+Add a parameter named year to your session with a value of 2000.
+
+```
+:param year => 2000
+```
+
+#### Exercise 12.3: Modify the Cypher query you just wrote to use a parameter (Instructions)
+
+Modify the Cypher query you just wrote to filter by the year parameter.
+
+```
+MATCH (r:Person)-[rel:REVIEWED]->(m:Movie)<-[:ACTED_IN]-(a:Person) WHERE m.released = $year RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
+```
+
+#### Exercise 12.4: Modify parameter value and retest your query (Instructions)
+
+Modify the year parameter to be a different value, 2006, and retest your query.
+
+```
+:param year => 2006
+```
+
+#### Exercise 12.5: Add a different parameter to your session (Instructions)
+
+Suppose that you want to parameterize both the values in your query for released for a Movie_node and the _rating value for the REVIEWED relationship.
+
+Add a parameter named ratingValue to your session with a value of 65.
+
+```
+:params {year: 2006, ratingValue: 65}
+```
+
+#### Exercise 12.6: Modify the query you wrote previously to use the second parameter (Instructions)
+
+Modify the query you wrote previously to also filter the result returned by the rating for the movie.
+
+```
+MATCH (r:Person)-[rel:REVIEWED]->(m:Movie)<-[:ACTED_IN]-(a:Person) WHERE m.released = $year AND rel.rating > $ratingValue
+RETURN  DISTINCT r.name, m.title, m.released, rel.rating, collect(a.name)
+```
+
+#### Exercise 12.7: Modify the second parameter value and retest your query (Instructions)
+
+Modify the ratingValue parameter to be a different value, 60, and retest your query.
+
+```
+:params {year: 2006, ratingValue: 60}
+```
 
