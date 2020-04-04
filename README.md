@@ -705,6 +705,144 @@ Query the graph to confirm that the Forrest Gump node has been deleted.
 MATCH (p:Person)-[rel]-(m:Movie) WHERE m.title = 'Forrest Gump' RETURN p, rel, m
 ```
 
-#### 
+#### Exercise 11.1: Use MERGE to create a Movie node
+
+In this Part of the exercise, you will again create the movie, Forrest Gump, update the node, and then merge the data in the graph to create another node with a different label.
+
+Use MERGE to create (ON CREATE) a node of type Movie with the title property, Forrest Gump. If created, set the released property to 1994.
+
+```
+MERGE (m:Movie {title: 'Forrest Gump'}) ON CREATE SET m.released = 1994 RETURN m
+```
+
+#### Exercise 11.2: Use MERGE to update a node
+
+Use MERGE to update (ON MATCH) a node of type Movie with the title property, Forrest Gump. If found, set the tagline property to "Life is like a box of chocolates…​you never know what you’re gonna get.".
+
+```
+MERGE (m:Movie {title: 'Forrest Gump'}) ON CREATE SET m.released = 1994 ON MATCH SET m.tagline = "Life is like a box of chocolates...you never know what you're gonna get." RETURN m
+```
+
+#### Exercise 11.3: Use MERGE to create a Production node
+
+Use MERGE to create (ON CREATE) a node of type Production with the title property, Forrest Gump. If created, set the property year to the value 1994.
+
+```
+MERGE (p:Production {title: 'Forrest Gump'}) ON CREATE SET p.year = 1994 RETURN p
+```
+
+#### Exercise 11.4: Find all labels for nodes with a property value
+
+Query the graph to find labels for nodes with the title property, Forrest Gump.
+
+```
+MATCH (m) WHERE m.title = 'Forrest Gump' RETURN  labels(m)
+```
+
+#### Exercise 11.5: Use MERGE to update a Production node
+
+Use MERGE to update (ON MATCH) the existing Production node for Forrest Gump to add the company property with a value of Paramount Pictures.
+
+```
+MERGE (p:Production {title: 'Forrest Gump'}) ON MATCH SET p.company = 'Paramount Pictures' RETURN p
+```
+
+#### Exercise 11.6: Use MERGE to add a label to a node
+
+Use MERGE to add the OlderMovie label to the movie, Forrest Gump.
+
+```
+MERGE (m:Movie {title: 'Forrest Gump'}) ON MATCH SET m:OlderMovie RETURN labels(m)
+```
+
+#### Exercise 11.7: Use MERGE to create two nodes and a single relationship
+
+In this Part of the exercise, you merge data to create relationships.
+
+Execute the following Cypher statement that uses MERGE to create two nodes and a single relationship
+
+```
+MERGE (p:Person {name: 'Robert Zemeckis'})-[:DIRECTED]->(m {title: 'Forrest Gump'})
+```
+
+#### Exercise 11.8: Use the same MERGE statement to attempt to create two nodes and a single relationship
+
+```
+(no changes, no records)
+```
+
+#### Exercise 11.9: Find the correct Person node to delete (Instructions)
+
+Find the correct Person node to delete
+
+You query the nodes before you delete them to ensure you have the correct MATCH clauses.
+
+Execute this query:
+
+```
+MATCH (p:Person {name: 'Robert Zemeckis'})-[rel]-(x) WHERE NOT EXISTS (p.born) RETURN p, rel, x
+```
+
+#### Exercise 11.10: Delete this Person node, along with its relationships (Instructions)
+
+Delete this Person node, along with its relationships.
+
+```
+MATCH (p:Person {name: 'Robert Zemeckis'})--() WHERE NOT EXISTS (p.born) DETACH DELETE p
+```
+
+#### Exercise 11.11: Find the correct Forrest Gump node to delete (Instructions)
+
+Find the correct Forrest Gump node to delete by executing this statement:
+
+```
+MATCH (m) WHERE m.title = 'Forrest Gump' AND labels(m) = [] RETURN m, labels(m)
+```
+
+#### Exercise 11.12: Delete the Forrest Gump node (Instructions)
+
+Delete this Forrest Gump node.
+
+It should have no relationships, but you can specify DETACH just to be certain.
+
+```
+MATCH (m) WHERE m.title = 'Forrest Gump' AND labels(m) = [] DETACH DELETE m
+```
+
+#### Exercise 11.13: Use MERGE to create the DIRECTED relationship (Instructions)
+
+Use MERGE to create the DIRECTED relationship between Robert Zemeckis and the Movie, Forrest Gump.
+
+```
+MATCH (p:Person), (m:Movie) WHERE p.name = 'Robert Zemeckis' AND m.title = 'Forrest Gump' MERGE (p)-[:DIRECTED]->(m)
+```
+
+#### Exercise 11.14: Use MERGE to create the ACTED_IN relationship (Instructions)
+
+Use MERGE to create the ACTED_IN relationship between the actors, Tom Hanks, Gary Sinise, and Robin Wright and the Movie, Forrest Gump.
+
+```
+MATCH (p:Person), (m:Movie) WHERE p.name IN ['Tom Hanks','Gary Sinise', 'Robin Wright'] AND m.title = 'Forrest Gump'
+MERGE (p)-[:ACTED_IN]->(m)
+```
+
+#### Exercise 11.15: Modify the role relationship property (Instructions)
+
+Modify the relationship property, role for their roles in Forrest Gump:
+
+- Tom Hanks is Forrest Gump
+
+- Gary Sinise is Lt. Dan Taylor
+
+- Robin Wright is Jenny Curran
+
+```
+MATCH (p:Person)-[rel:ACTED_IN]->(m:Movie) WHERE m.title = 'Forrest Gump' SET rel.roles = CASE p.name
+  WHEN 'Tom Hanks' THEN ['Forrest Gump']
+  WHEN 'Robin Wright' THEN ['Jenny Curran']
+  WHEN 'Gary Sinise' THEN ['Lt. Dan Taylor']
+END
+```
+
 
 
