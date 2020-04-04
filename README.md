@@ -649,5 +649,62 @@ Query the graph to confirm that your modifications were made to the graph.
 MATCH (p:Person)-[rel:ACTED_IN]->(m:Movie) WHERE m.title = 'Forrest Gump' return p, rel, m
 ```
 
+#### Exercise 10.1: Delete a relationship
+
+Recall that in the graph we have been working with, we have the HELPED relationship between Tom Hanks and Gary Sinise. We have decided that we no longer need this relationship in the graph.
+
+Delete the HELPED relationship from the graph.
+
+```
+MATCH (:Person)-[rel:HELPED]-(:Person) DELETE rel
+```
+
+#### Exercise 10.2: Confirm that the relationship has been deleted
+
+Query the graph to confirm that the relationship no longer exists.
+
+```
+MATCH (:Person)-[rel:HELPED]-(:Person) RETURN rel
+```
+
+#### Exercise 10.3: Retrieve a movie and all of its relationships
+
+Query the graph to display Forrest Gump and all of its relationships.
+
+```
+MATCH (p:Person)-[rel]-(m:Movie) WHERE m.title = 'Forrest Gump' RETURN p, rel, m
+```
+
+#### Exercise 10.4: Try deleting a node without detaching its relationships
+
+We want to remove the movie, Forrest Gump from the graph.
+
+Try deleting the Forrest Gump node without detaching its relationships.
+
+```
+MATCH (m:Movie) WHERE m.title = 'Forrest Gump' DELETE m
+```
+erro
+```
+Cannot delete node<513>, because it still has relationships. To delete this node, you must first delete its relationships.
+```
+
+#### Exercise 10.5: Delete a Movie node, along with its relationships
+
+Delete Forrest Gump, along with its relationships in the graph.
+
+```
+MATCH (m:Movie) WHERE m.title = 'Forrest Gump' DETACH DELETE m
+```
+
+#### Exercise 10.6: Confirm that the Movie node has been deleted
+
+Query the graph to confirm that the Forrest Gump node has been deleted.
+
+```
+MATCH (p:Person)-[rel]-(m:Movie) WHERE m.title = 'Forrest Gump' RETURN p, rel, m
+```
+
 #### 
+
 
